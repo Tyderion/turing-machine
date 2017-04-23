@@ -76,6 +76,6 @@ export class Band {
     }
 }
 
-enum Direction {
+export enum Direction {
     LEFT, RIGHT
 }

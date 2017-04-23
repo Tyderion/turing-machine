@@ -1,7 +1,59 @@
-import { Band } from './band';
+import { Band, Direction } from './band';
 
 export const EMPTY = '_';
 export const DOT = '•';
+
+
+export const Multiplay = {
+    0: {
+        EMPTY: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 1
+        },
+        DOT: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 2
+        }
+    },
+    1: {
+         EMPTY: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 14
+        },
+         DOT: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 2
+        }
+    },
+    2: {
+         EMPTY: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 3
+        },
+        DOT: {
+            put: DOT,
+            direction: Direction.RIGHT,
+            state: 2
+        }
+    },
+    14: {
+         EMPTY: {
+            put: EMPTY,
+            direction: Direction.LEFT,
+            state: -1
+        },
+        DOT: {
+            put: EMPTY,
+            direction: Direction.RIGHT,
+            state: 14
+        }
+    }
+}
 
 
 export class TuringMachine {
