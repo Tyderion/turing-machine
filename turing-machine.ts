@@ -1,17 +1,20 @@
-import { Band, EMPTY } from './band';
+import { Band } from './band';
+
+export const EMPTY = '_';
+export const DOT = '•';
+
 
 export class TuringMachine {
     private band: Band;
-    private static DOT = '•'
 
     public constructor(left: number, right: number) {
         let input = '';
         for (let i = 0; i < left; i++) {
-            input += TuringMachine.DOT;
+            input += DOT;
         }
         input += EMPTY + EMPTY;
-         for (let i = 0; i < right; i++) {
-            input += TuringMachine.DOT
+        for (let i = 0; i < right; i++) {
+            input += DOT
         }
         this.band = new Band(input.split(''), 15);
     }
@@ -21,18 +24,14 @@ export class TuringMachine {
 
         let input = this.band.read();
         while (input !== '_') {
-            this.band.right(TuringMachine.DOT);
-            input = this.band.read();
+            input = this.band.right(DOT);
             this.band.printBand();
         }
-        this.band.left('_');
+        input = this.band.left('_');
+        this.band.printBand();
+        while (input !== '_') {
+            input = this.band.left(DOT);
             this.band.printBand();
-            input = this.band.read();
-            // console.log('input: ', input);
-         while (input !== '_') {
-            this.band.left(TuringMachine.DOT);
-            input = this.band.read();
-            this.band.printBand();
-         }
+        }
     }
 }

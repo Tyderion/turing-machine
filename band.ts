@@ -1,6 +1,4 @@
-
-export const EMPTY = '_';
-
+import { EMPTY } from './turing-machine';
 export class Band {
     private static SEPERATOR = '|';
     private current: number;
@@ -9,27 +7,27 @@ export class Band {
     constructor(private initial: string[], private displaySize: number) {
         this.band = [...this.initial];
         this.current = 0;
-        for (let i = 0; i < displaySize*(Band.SEPERATOR.length + 1) + 1; i++) {
+        for (let i = 0; i < displaySize * (Band.SEPERATOR.length + 1) + 1; i++) {
             this.positionString += ' ';
         }
         this.positionString += 'v';
     }
 
-    public right(put?: string): void {
+    public right(put?: string): string {
         if (put && put.length > 1) {
             throw new Error("Can only put one char into a location of the band");
         }
-        this.move(put ? put : "_", Direction.RIGHT);
+        return this.move(put ? put : "_", Direction.RIGHT);
     }
 
-    public left(put?: string): void {
+    public left(put?: string): string {
         if (put && put.length > 1) {
             throw new Error("Can only put one char into a location of the band");
         }
-        this.move(put ? put : "_", Direction.LEFT);
+        return this.move(put ? put : "_", Direction.LEFT);
     }
 
-    private move(str: string, dir: Direction) {
+    private move(str: string, dir: Direction): string {
         if (this.current === 0 && dir === Direction.LEFT) {
             this.band[this.current] = str;
             this.band.unshift(EMPTY);
@@ -44,6 +42,7 @@ export class Band {
                 this.current++;
             }
         }
+        return this.band[this.current];
     }
 
     public read(): string {
