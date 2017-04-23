@@ -7,6 +7,10 @@ export const DOT = '•';
 export class TuringMachine {
     private band: Band;
 
+    private get input() {
+        return this.band.read();
+    }
+
     public constructor(left: number, right: number) {
         let input = '';
         for (let i = 0; i < left; i++) {
@@ -19,24 +23,32 @@ export class TuringMachine {
         this.band = new Band(input.split(''), 30);
     }
 
-    private moveToEndOfDots(input: string) {
-        if (input !== EMPTY) {
-            input = this.band.right(EMPTY);
+    private moveToEndOfDots() {
+        while (this.input !== EMPTY) {
+            this.band.right(this.input);
         }
-        while (input !== EMPTY) {
-             input = this.band.right(input);
+    }
+
+        private moveToBeginningOfDots() {
+        while (this.input !== EMPTY) {
+            this.band.left(this.input);
         }
-        input = this.band.right(EMPTY);
-        return input;
     }
 
     public compute(): void {
         this.band.printBand();
         this.band.printSteps = true;
-        let input = this.band.read();
-        input = this.moveToEndOfDots(input);
-        input = this.moveToEndOfDots(input);
-      
+        // if (this.input !== EMPTY) {
+        //     this.band.right(EMPTY);
+        // }
+        this.moveToEndOfDots();
+        this.band.left(EMPTY);
+        this.moveToBeginningOfDots();
+        // if (this.input !== EMPTY) {
+        //     this.band.right(EMPTY);
+        // }
+        // this.moveToEndOfDots();
+
         // if (input !== EMPTY) {
         //     input = this.band.right(EMPTY);
         // }
