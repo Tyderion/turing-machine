@@ -4,6 +4,8 @@ export class Band {
     private current: number;
     private band: string[];
     private positionString = '';
+
+    public printSteps: boolean = false;
     constructor(private initial: string[], private displaySize: number) {
         this.band = [...this.initial];
         this.current = 0;
@@ -32,7 +34,8 @@ export class Band {
             this.band[this.current] = str;
             this.band.unshift(EMPTY);
         } else if (this.current === this.band.length - 1 && dir === Direction.RIGHT) {
-            this.band.push(str);
+            this.band[this.current] = str;            
+            this.band.push(EMPTY);
             this.current++;
         } else {
             this.band[this.current] = str;
@@ -41,6 +44,9 @@ export class Band {
             } else {
                 this.current++;
             }
+        }
+        if (this.printSteps) {
+            this.printBand();
         }
         return this.band[this.current];
     }
