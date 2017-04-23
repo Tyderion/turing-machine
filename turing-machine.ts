@@ -1,4 +1,4 @@
-import { Band } from './band';
+import { Band, EMPTY } from './band';
 
 export class TuringMachine {
     private band: Band;
@@ -9,7 +9,7 @@ export class TuringMachine {
         for (let i = 0; i < left; i++) {
             input += TuringMachine.DOT;
         }
-        input += "__";
+        input += EMPTY + EMPTY;
          for (let i = 0; i < right; i++) {
             input += TuringMachine.DOT
         }
@@ -25,26 +25,14 @@ export class TuringMachine {
             input = this.band.read();
             this.band.printBand();
         }
-        // let char = this.band.read();
-        // if (char !== '_') {
-        //     this.band.right('1');
-        // } else {
-        //     this.band.left();
-        // }
-
-        // this.band.left();
-        // this.band.printBand();
-        // this.band.left();
-        // this.band.printBand();
-        // this.band.right('x');
-        // this.band.printBand();
-        
-        // this.band.right('x');
-        // this.band.printBand();
-        
-        // this.band.left('y');
-        // this.band.printBand();
-        // this.band.left();
-        // this.band.printBand();
+        this.band.left('_');
+            this.band.printBand();
+            input = this.band.read();
+            // console.log('input: ', input);
+         while (input !== '_') {
+            this.band.left(TuringMachine.DOT);
+            input = this.band.read();
+            this.band.printBand();
+         }
     }
 }

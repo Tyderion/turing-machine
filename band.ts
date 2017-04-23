@@ -1,3 +1,6 @@
+
+export const EMPTY = '_';
+
 export class Band {
     private static SEPERATOR = '|';
     private current: number;
@@ -28,7 +31,8 @@ export class Band {
 
     private move(str: string, dir: Direction) {
         if (this.current === 0 && dir === Direction.LEFT) {
-            this.band.unshift(str);
+            this.band[this.current] = str;
+            this.band.unshift(EMPTY);
         } else if (this.current === this.band.length - 1 && dir === Direction.RIGHT) {
             this.band.push(str);
             this.current++;
