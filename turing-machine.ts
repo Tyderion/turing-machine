@@ -1,140 +1,85 @@
 import { Band, Direction } from './band';
 
+import * as Multiply from './multiply.json';
+
+
 export const EMPTY = '_';
 export const DOT = '•';
 
-
-export const Multiplay = {
-    0: {
-        EMPTY: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 1
-        },
-        DOT: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 2
-        }
-    },
-    1: {
-         EMPTY: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 14
-        },
-         DOT: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 2
-        }
-    },
-    2: {
-         EMPTY: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 3
-        },
-        DOT: {
-            put: DOT,
-            direction: Direction.RIGHT,
-            state: 2
-        }
-    },
-    14: {
-         EMPTY: {
-            put: EMPTY,
-            direction: Direction.LEFT,
-            state: -1
-        },
-        DOT: {
-            put: EMPTY,
-            direction: Direction.RIGHT,
-            state: 14
-        }
-    }
-}
-
-
 export class TuringMachine {
     private band: Band;
+
+    private current = 0;
+    private states = Multiply;
+
+    private get currentState() {
+        return this.states[this.current];
+    }
 
     private get input() {
         return this.band.read();
     }
 
-    public constructor(left: number, right: number) {
+    public constructor(private left: number, private right: number, private printSteps: boolean = false) {
         let input = '';
-        for (let i = 0; i < left; i++) {
+        for (let i = 0; i < this.left; i++) {
             input += DOT;
         }
         input += EMPTY;
-        for (let i = 0; i < right; i++) {
+        for (let i = 0; i < this.right; i++) {
             input += DOT
         }
-        this.band = new Band(input.split(''), 30);
-    }
-
-    private moveToEndOfDots() {
-        while (this.input !== EMPTY) {
-            this.band.right(this.input);
-        }
-    }
-
-        private moveToBeginningOfDots() {
-        while (this.input !== EMPTY) {
-            this.band.left(this.input);
-        }
+        this.band = new Band(input.split(''), 30, printSteps);
     }
 
     public compute(): void {
-        this.band.printBand();
-        this.band.printSteps = true;
-        // if (this.input !== EMPTY) {
-        //     this.band.right(EMPTY);
+        this.step(this.printSteps ? 100 : 0).then(() => this.compute()).catch(() => {
+            if (!this.printSteps) {
+                this.band.printBand();
+                console.log('')
+            }
+            console.log(`\nComputed ${this.left} * ${this.right} in ${this.band.count} steps`);
+            console.log('Final State: ', this.current);
+            console.log(`Result: `, this.band.number);
+        })
+        // while (this.current !== -1) {
+        //     try {
+        //         this.step();
+        //     } catch (err) {
+        //         break;
+        //     }
         // }
-        this.moveToEndOfDots();
-        this.band.left(EMPTY);
-        this.moveToBeginningOfDots();
-        // if (this.input !== EMPTY) {
-        //     this.band.right(EMPTY);
-        // }
-        // this.moveToEndOfDots();
 
-        // if (input !== EMPTY) {
-        //     input = this.band.right(EMPTY);
-        // }
-        // input = this.band.right(input);
-        // while (input !== EMPTY) {
-        //      input = this.band.right(input);
-        // }
-        // input = this.band.right(EMPTY);
+    }
 
-        // input = this.moveToEndOfDots(input);
-        //  while (input !== EMPTY) {
-        //      input = this.band.right(input);
+    private step(delay: number = 0): Promise<any> {
+        // if (delay === 0) {
+        //     this.doStep();
+        // } else {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                try {
+                    this.doStep();
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            }, delay);
+        });
         // }
-        // this.moveToEndOfDots(input);
-        // if (input !== EMPTY) {
-        //     input = this.band.right(EMPTY);
-        // }
-        // while (input !== EMPTY) {
-        //      input = this.band.right(input);
-        // }
-        // input = this.band.right(EMPTY);
+    }
 
-
-
-        // let input = this.band.read();
-        // while (input !== '_') {
-        //     input = this.band.right(DOT);
-        //     this.band.printBand();
-        // }
-        // input = this.band.left('_');
-        // this.band.printBand();
-        // while (input !== '_') {
-        //     input = this.band.left(DOT);
-        //     this.band.printBand();
-        // }
+    private doStep() {
+        let input = this.band.read();
+        let transition = this.currentState[input];
+        if (transition.direction === Direction.RIGHT) {
+            this.band.right(transition.put);
+        } else {
+            this.band.left(transition.put);
+        }
+        if (transition.state === -1) {
+            throw new Error('Machine Halted');
+        }
+        this.current = transition.state;
     }
 }
