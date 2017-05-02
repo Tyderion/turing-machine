@@ -1,5 +1,5 @@
 import { EMPTY } from './turing-machine';
-import * as readline from 'readline';
+
 export class Band {
     private static SEPERATOR = '|';
     private current: number;
@@ -50,9 +50,9 @@ export class Band {
                 this.current++;
             }
         }
-        if (this.printSteps) {
-            this.printBand();
-        }
+        // if (this.printSteps) {
+        //     this.printBand();
+        // }
         return this.band[this.current];
     }
 
@@ -68,7 +68,7 @@ export class Band {
         return this.executedSteps;
     }
 
-    public printBand() {
+    public printBand(state: number) {
         // let start = this.current - this.displaySize;
         let result: string[] = [];
         for (let counter = this.current - this.displaySize; counter <= this.current + this.displaySize; counter++) {
@@ -84,7 +84,11 @@ export class Band {
         if (!this.printSteps) {
             console.log(this.positionString);
         }
-        this.printLine(this.wrap(band));
+        this.printLine(`${this.wideNumber(state)}: ${this.wrap(band)}`);
+    }
+
+    private wideNumber(count: number) {
+        return count < 10 ? ` ${count}` : count;
     }
 
     private printLine(str) {

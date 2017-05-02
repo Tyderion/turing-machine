@@ -2,7 +2,6 @@ import { Band, Direction } from './band';
 
 import * as Multiply from './multiply.json';
 
-
 export const EMPTY = '_';
 export const DOT = '•';
 
@@ -39,7 +38,7 @@ export class TuringMachine {
     public compute(): void {
         this.step(this.delay).then(() => this.compute()).catch(() => {
             if (!this.printSteps) {
-                this.band.printBand();
+                this.band.printBand(this.current);
                 console.log('')
             }
             console.log(`\nComputed ${this.left} * ${this.right} in ${this.band.count} steps`);
@@ -78,5 +77,6 @@ export class TuringMachine {
             throw new Error('Machine Halted');
         }
         this.current = transition.state;
+        this.band.printBand(this.current);
     }
 }
