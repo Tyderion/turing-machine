@@ -1,18 +1,22 @@
 import { EMPTY } from './turing-machine';
+import * as readline from 'readline';
 export class Band {
     private static SEPERATOR = '|';
     private current: number;
     private band: string[];
     private positionString = '';
+    private executedSteps = 0;
 
-    public printSteps: boolean = false;
-    constructor(private initial: string[], private displaySize: number) {
+    constructor(private initial: string[], private displaySize: number, private printSteps = false) {
         this.band = [...this.initial];
         this.current = 0;
         for (let i = 0; i < displaySize * (Band.SEPERATOR.length + 1) + 1; i++) {
             this.positionString += ' ';
         }
         this.positionString += 'v';
+        if (this.printSteps) {
+            console.log(this.positionString);
+        }
     }
 
     public right(put?: string): string {
@@ -30,11 +34,12 @@ export class Band {
     }
 
     private move(str: string, dir: Direction): string {
+        this.executedSteps++;
         if (this.current === 0 && dir === Direction.LEFT) {
             this.band[this.current] = str;
             this.band.unshift(EMPTY);
         } else if (this.current === this.band.length - 1 && dir === Direction.RIGHT) {
-            this.band[this.current] = str;            
+            this.band[this.current] = str;
             this.band.push(EMPTY);
             this.current++;
         } else {
@@ -55,6 +60,14 @@ export class Band {
         return this.band[this.current];
     }
 
+    public get number(): number {
+        return this.band.filter(s => s !== EMPTY).length;
+    }
+
+    public get count(): number {
+        return this.executedSteps;
+    }
+
     public printBand() {
         // let start = this.current - this.displaySize;
         let result: string[] = [];
@@ -67,7 +80,17 @@ export class Band {
         }
         let band = result.join(Band.SEPERATOR);
 
-        console.log(`${this.positionString}\n${this.wrap(band)}`);
+        // this.printLine(`${this.positionString}\n${this.wrap(band)}`);
+        if (!this.printSteps) {
+            console.log(this.positionString);
+        }
+        this.printLine(this.wrap(band));
+    }
+
+    private printLine(str) {
+        process.stdout.clearLine();
+        process.stdout.cursorTo(0);
+        process.stdout.write(str);
     }
 
     private wrap(str, empty: boolean = false) {
@@ -76,6 +99,7 @@ export class Band {
     }
 }
 
-enum Direction {
-    LEFT, RIGHT
+export enum Direction {
+    LEFT = <any>'l',
+    RIGHT = <any>'r'
 }
