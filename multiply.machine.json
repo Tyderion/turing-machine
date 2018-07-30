@@ -1,0 +1,213 @@
+{
+    "letters": [
+        "_",
+        "•"
+    ],
+    "start": 0,
+    "states": {
+        "0": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 1
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 2
+            }
+        },
+        "1": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 14
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 2
+            }
+        },
+        "2": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 3
+            },
+            "•": {
+                "put": "•",
+                "direction": "r",
+                "state": 2
+            }
+        },
+        "3": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": 15
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 4
+            }
+        },
+        "4": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 5
+            },
+            "•": {
+                "put": "•",
+                "direction": "r",
+                "state": 4
+            }
+        },
+        "5": {
+            "_": {
+                "put": "•",
+                "direction": "l",
+                "state": 6
+            },
+            "•": {
+                "put": "•",
+                "direction": "r",
+                "state": 5
+            }
+        },
+        "6": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": 7
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 6
+            }
+        },
+        "7": {
+            "_": {
+                "put": "•",
+                "direction": "l",
+                "state": 9
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 8
+            }
+        },
+        "8": {
+            "_": {
+                "put": "•",
+                "direction": "r",
+                "state": 3
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 8
+            }
+        },
+        "9": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": 10
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 9
+            }
+        },
+        "10": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 12
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 11
+            }
+        },
+        "11": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 0
+            },
+            "•": {
+                "put": "•",
+                "direction": "l",
+                "state": 11
+            }
+        },
+        "12": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": 12
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 13
+            }
+        },
+        "13": {
+            "_": {
+                "put": "_",
+                "direction": "r",
+                "state": -1
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 13
+            }
+        },
+        "14": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": -1
+            },
+            "•": {
+                "put": "_",
+                "direction": "r",
+                "state": 14
+            }
+        },
+        "15": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": 16
+            },
+            "•": {
+                "put": "_",
+                "direction": "l",
+                "state": 15
+            }
+        },
+        "16": {
+            "_": {
+                "put": "_",
+                "direction": "l",
+                "state": -1
+            },
+            "•": {
+                "put": "_",
+                "direction": "l",
+                "state": 16
+            }
+        }
+    }
+}
